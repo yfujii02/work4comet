@@ -7,6 +7,7 @@ startRun=int(args[1])
 endRun  =int(args[2])
 iset    =int(args[3])
 thrkev  =int(args[4])
+dataDir =args[5]
 print("Start Run: " + args[1])
 print("End   Run: " + args[2])
 strSetting=['CTH 48 Segments','CTH 64 Segments Scint+Cheren(10mm Acrylic)',
@@ -15,5 +16,4 @@ print(" Run description :")
 print("    " + strSetting[iset])
 print("Threshold: " + args[4] + " [keV]")
 thr=0.001*float(thrkev)
-dataDir="/Users/yfujii/work/COMET/data/"
 CTHTriggerStudy.main_loop(iset,startRun,endRun,thr,dataDir)

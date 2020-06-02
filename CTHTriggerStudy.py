@@ -6,7 +6,7 @@ import math
 
 import matplotlib.pyplot as plt
 
-from scipy import stats
+#from scipy import stats
 
 #### Constant parameters
 ntmax=2400 # [ns]
@@ -159,7 +159,7 @@ def triggerSimulation(wf,nCoinThr1,nCoinThr2,dBin,dSeg1,dSeg2,skip):
 
 time=np.arange(0,ntmax+tExtend,1.0)
 
-def process_trigger(events,debug,trgSetting,skipPrompt):
+def process_trigger(events,debugLvl,trgSetting,skipPrompt):
     print("")
     print("Start of a file")
     
@@ -221,7 +221,7 @@ def process_trigger(events,debug,trgSetting,skipPrompt):
         for ibin in range(ntmax):
             trigN_vs_time[ibin]=trigN_vs_time[ibin]+triggers[ibin]
         ###### Draw waveforms
-        if debug==True:###
+        if debugLvl==2:###
             trigN=np.zeros(nChannels)
             trigT=[]
             trigA=[]
@@ -293,7 +293,7 @@ def process_trigger(events,debug,trgSetting,skipPrompt):
 
 #thresholds=[0.15,0.25,0.35,0.45,0.55,0.65,0.75,0.85]
 trgSets=[0,1]
-debug=False
+debugLvl=0
 skipPrompt=True # Skip prompt (tSkip=400ns) to speed up the simulation
 # Turn interactive plotting off
 plt.ioff()
@@ -357,7 +357,7 @@ def main_loop(case,startRun,endRun,thr,dataDir):
             for ifile in range(len(fileList)):
                 trigN_vs_time=np.zeros(ntmax)
                 events = uproot.open(fileList[ifile])["mc"]
-                nevents,trigN_vs_time,nacc = process_trigger(events,debug,trgSetting,skipPrompt)
+                nevents,trigN_vs_time,nacc = process_trigger(events,debugLvl,trgSetting,skipPrompt)
                 for i in range(int(ntmax/10)):
                     for j in range(10):
                         trigN_vs_time_All[i]=trigN_vs_time_All[i]+trigN_vs_time[i*10+j]
@@ -372,22 +372,22 @@ def main_loop(case,startRun,endRun,thr,dataDir):
             #print("#   out of ",len(fileList)*2*5," bunches")
             print("#   out of ",len(fileList)*2*4," bunches") # for new files
             print("##################################")
-    
-            print("#of Triggers vs timing")
-            fig=plt.figure(figsize=(15.0, 3.6))
-            plt.plot(t10n,trigN_vs_time_All,color='red',linewidth=2.0)
-            plt.grid(True)
-            plt.axvspan(twindow1[0], twindow1[1], facecolor='blue', alpha=0.4)
-            plt.axvspan(twindow2[0], twindow2[1], facecolor='blue', alpha=0.4)
-            plt.title("#of triggers vs timing")
-            plt.xlabel('time [ns]')
-            plt.ylabel('#of triggers / 10ns')
-            plt.xlim(-1, ntmax+1)
-            plt.ylim(-1, maxN+1)
-            #plt.show()
-            plt.savefig('figs2/trgDistDataset'+str(case)+'Run'+str(startRun)+'-'+str(endRun)
-                        +'th'+str(int(1000*thresholds[ith]))+'keV_TrgSet'+str(trgSets[iset])+'.png')
-            plt.close(fig)
-            print("********************************")
+            if (debugLvl==1): 
+                print("#of Triggers vs timing")
+                fig=plt.figure(figsize=(15.0, 3.6))
+                plt.plot(t10n,trigN_vs_time_All,color='red',linewidth=2.0)
+                plt.grid(True)
+                plt.axvspan(twindow1[0], twindow1[1], facecolor='blue', alpha=0.4)
+                plt.axvspan(twindow2[0], twindow2[1], facecolor='blue', alpha=0.4)
+                plt.title("#of triggers vs timing")
+                plt.xlabel('time [ns]')
+                plt.ylabel('#of triggers / 10ns')
+                plt.xlim(-1, ntmax+1)
+                plt.ylim(-1, maxN+1)
+                #plt.show()
+                plt.savefig('figs2/trgDistDataset'+str(case)+'Run'+str(startRun)+'-'+str(endRun)
+                            +'th'+str(int(1000*thresholds[ith]))+'keV_TrgSet'+str(trgSets[iset])+'.png')
+                plt.close(fig)
+                print("********************************")
             print("")
 
