@@ -307,12 +307,12 @@ def main_loop(case,startRun,endRun,thr,dataDir):
     global trgSets
     if case==0:
         dataDir=dataDir+"cth48/"
-        thickRatio=1.75 ### Actually 2.0 but to be conservative
+        thickRatio=1.8 ### Actually 2.0 but lowered to be conservative
         nSeg=48
         nChannels=nHod*nType*nSeg
     elif case==1:
         dataDir=dataDir+"cth64_SC/"
-        thickRatio=1.75 ### Actually 2.0 but to be conservative
+        thickRatio=1.8 ### Actually 2.0 but lowered to be conservative
         nSeg=64
         nChannels=nHod*nType*nSeg
     elif case==2:
@@ -323,7 +323,8 @@ def main_loop(case,startRun,endRun,thr,dataDir):
         trgSets=[1]
     elif case==3:
         dataDir=dataDir+"cth64_SS_thicker/"
-        thickRatio=1.4  ### Actually 1.5 but to be conservative
+        ##thickRatio=1.4  ### Actually 1.5 but to be conservative
+        thickRatio=1.0  ### New "thicker" geometry has same thickness in both layers
         nSeg=64
         nChannels=nHod*nType*nSeg
         trgSets=[1]

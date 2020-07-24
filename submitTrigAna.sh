@@ -1,9 +1,7 @@
 #!/bin/bash
 
-#NumRun=$1
-NumRun=71
-#for(( set=0; set<4; set++))
-for(( set=1; set<4; set++))
+NumRun=92
+for(( set=0; set<4; set++))
 do
 #   while : ; do
 #     NJobs=$(ps aux |grep "python3 runTrig.py" |wc -l)
@@ -13,7 +11,7 @@ do
 #       sleep 300
 #     fi
 #   done
-   for thr in 150 250 350 450 550 650 750 850
+   for thr in 150 250 350 450 550 650 750 850 950 1050
    do
       log=/group/had/muon/yfujii/work/trig/out${set}_thr${thr}keV_deltaSegIsOne.txt
       if [ -f $log ];then
