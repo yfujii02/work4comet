@@ -24,9 +24,9 @@ def setList(dataPath,listName):
     global time
     fPath=dataPath
     run,event,time=np.loadtxt(listName,unpack=True)
-    print('Dump list:', len(run))
-    for i in range(len(run)):
-        print(run[i],', ',event[i],', ',time[i])
+    #print('Dump list:', len(run))
+    #for i in range(len(run)):
+    #    print(int(run[i]),', ',int(event[i]),', ',int(time[i]))
 
 def setThre(thr):
     global eThr
@@ -42,6 +42,14 @@ def main():
         CTHGeomCalc.SetTiltAngle(20)
         #CTHGeomCalc.SetParameters(420,460,44,49,7.5,7.5) #Position and size parameters
         CTHGeomCalc.SetParameters(419.5,459.4,42.6,46.8,5,10) #Position and size parameters
+    elif geomSet==2: ## 64, 5mmScint+5mmCheren
+        CTHGeomCalc.SetNumSeg(64)
+        CTHGeomCalc.SetTiltAngle(20)
+        CTHGeomCalc.SetParameters(420,460,44,49,5,5) #Position and size parameters
+    elif geomSet==3: ## 64, 5mmScint+5mmCheren
+        CTHGeomCalc.SetNumSeg(64)
+        CTHGeomCalc.SetTiltAngle(17)
+        CTHGeomCalc.SetParameters(420,460,42,46,5,5) #Position and size parameters
     CTHGeomCalc.Init(drawCdcHits)
     nTrig=[0,0]
     for i in range(len(time)):
@@ -51,7 +59,7 @@ def main():
         print("   From",tRange[0]," to ",tRange[1]," ns")
         hits=CTHGeomCalc.GetHitsFromTestData(fName,int(event[i]),tRange[0],tRange[1],eThr)
         CTHGeomCalc.AddHits(hits)
-        CTHGeomCalc.DrawGeom(True)
+        CTHGeomCalc.DrawGeom(True,False)
         drawUS, drawDS = CTHGeomCalc.GetDrawStatus()
         if drawUS==True: nTrig[0]=nTrig[0]+1
         if drawDS==True: nTrig[1]=nTrig[1]+1

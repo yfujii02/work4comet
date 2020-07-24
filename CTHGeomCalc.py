@@ -84,7 +84,7 @@ lc2=[[],[]]
 lines1=[]
 lines2=[]
 lines3=[]
-#lc3=[[],[]]
+lc3=[[],[]]
 
 drawCdcHits=False
 drawUS=False
@@ -97,7 +97,7 @@ def Init(drawCdc):
     print("Inner/Outer thickness:  "+str(ThickInner)+" / "+str(ThickOuter))
     global centPosXOuter, centPosXInner
     global centPosYOuter, centPosYInner
-    global lines1,lines2#,lines3
+    global lines1,lines2,lines3
     global drawCdcHits
     drawCdcHits=drawCdc
     centPosXOuter=[]
@@ -277,7 +277,7 @@ def GetHitsFromTestData(fileName,evId,tstart,tend,ethr):
 def GetDrawStatus():
     return drawUS, drawDS
 
-def DrawGeom(drawHits):
+def DrawGeom(drawHits,drawPerp):
     global drawUS, drawDS
     drawUS=False
     drawDS=False
@@ -286,8 +286,8 @@ def DrawGeom(drawHits):
            LineCollection(lines1, lw=ThickOuter, alpha=0.6)]
     lc2 = [LineCollection(lines2, lw=ThickInner, alpha=0.6, color='green'),
            LineCollection(lines2, lw=ThickInner, alpha=0.6, color='green')]
-    #lc3 = [LineCollection(lines3, lw=0.5, color='black', ls='--'),
-    #       LineCollection(lines3, lw=0.5, color='black', ls='--')]
+    lc3 = [LineCollection(lines3, lw=0.5, color='black', ls='--'),
+           LineCollection(lines3, lw=0.5, color='black', ls='--')]
     if (drawHits==False or (nHitCounterUS[0]>1 and nHitCounterUS[1]>1)):
         drawUS=True
         print("##")
@@ -307,7 +307,8 @@ def DrawGeom(drawHits):
         plt.gcf().gca().add_artist(circle4)
         plt.gca().add_collection(lc1[0])
         plt.gca().add_collection(lc2[0])
-        #plt.gca().add_collection(lc3[0])
+        if(drawPerp==True):
+            plt.gca().add_collection(lc3[0])
         if(drawHits==True):
             plt.gca().add_collection(lHitCounterUS[0])
             plt.gca().add_collection(lHitCounterUS[1])
@@ -335,7 +336,8 @@ def DrawGeom(drawHits):
         plt.gcf().gca().add_artist(circle4)
         plt.gca().add_collection(lc1[1])
         plt.gca().add_collection(lc2[1])
-        #plt.gca().add_collection(lc3[1])
+        if(drawPerp==True):
+            plt.gca().add_collection(lc3[1])
         if(drawHits==True):
             plt.gca().add_collection(lHitCounterDS[0])
             plt.gca().add_collection(lHitCounterDS[1])
