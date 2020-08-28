@@ -299,12 +299,13 @@ skipPrompt=True # Skip prompt (tSkip=400ns) to speed up the simulation
 plt.ioff()
 
 ######### Main loop
-def main_loop(case,startRun,endRun,thr,dataDir):
+def main_loop(case,startRun,numRun,thr,dataDir,scintOnly):
     thickRatio=1.0
     thresholds=[thr]
     global nSeg
     global nChannels
     global trgSets
+    trgSets=[scintOnly]
     if case==0:
         dataDir=dataDir+"cth48/"
         thickRatio=1.8 ### Actually 2.0 but lowered to be conservative
@@ -320,20 +321,28 @@ def main_loop(case,startRun,endRun,thr,dataDir):
         thickRatio=1.0
         nSeg=64
         nChannels=nHod*nType*nSeg
-        trgSets=[1]
     elif case==3:
         dataDir=dataDir+"cth64_SS_thicker/"
         ##thickRatio=1.4  ### Actually 1.5 but to be conservative
         thickRatio=1.0  ### New "thicker" geometry has same thickness in both layers
         nSeg=64
         nChannels=nHod*nType*nSeg
-        trgSets=[1]
+    elif case==4:
+        dataDir=dataDir+"cth64_SS_2/"
+        thickRatio=1.0
+        nSeg=64
+        nChannels=nHod*nType*nSeg
+    elif case==5:
+        dataDir=dataDir+"cth64_SS_3/"
+        thickRatio=1.0
+        nSeg=64
+        nChannels=nHod*nType*nSeg
     
     fileList=[]
     t10n=np.arange(0,ntmax,10.0)
     
     #### Input files
-    for i in range(startRun,endRun+1,1):
+    for i in range(startRun,startRun+numRun,1):
         num=str(i)
         #print(dataDir+"test.merged."+num.zfill(3)+".root")
         fileList.append(dataDir+"test.merged."+num.zfill(3)+".root")
@@ -386,7 +395,7 @@ def main_loop(case,startRun,endRun,thr,dataDir):
                 plt.xlim(-1, ntmax+1)
                 plt.ylim(-1, maxN+1)
                 #plt.show()
-                plt.savefig('figs2/trgDistDataset'+str(case)+'Run'+str(startRun)+'-'+str(endRun)
+                plt.savefig('figs2/trgDistDataset'+str(case)+'Run'+str(startRun)+'-'+str(startRun+numRun)
                             +'th'+str(int(1000*thresholds[ith]))+'keV_TrgSet'+str(trgSets[iset])+'.png')
                 plt.close(fig)
                 print("********************************")
